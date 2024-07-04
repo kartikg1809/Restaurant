@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRouter.js';
+import itemRouter from './routes/itemRouter.js';
 import cors from 'cors';
 
 const app = express();
@@ -23,6 +24,8 @@ app.listen(3000,()=>{
 })
 
 app.use('/api/user',userRouter);
+app.use('/api/item',itemRouter);
+
 
 app.use((err,req,res,next)=>{
     const statuscode=err.statusCode||500;
