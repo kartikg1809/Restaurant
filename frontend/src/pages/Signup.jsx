@@ -71,7 +71,7 @@ const Signup = () => {
           className="border p-3 rounded-lg focus:outline-none"
           id="phone"
         />
-        <button onClick={handleSubmit} className="bg-yellow-500 p-3 rounded-lg text-white font-semibold uppercase hover:opacity-95 disabled:opacity-80">
+        <button onClick={handleSubmit} className="bg-slate-700 p-3 rounded-lg text-white font-semibold uppercase hover:opacity-95 disabled:opacity-80">
           Sign Up
         </button>
       </form>
