@@ -1,4 +1,4 @@
-import Item from "../models/itemModel";
+import Item from "../models/itemModel.js";
 import { errorHandler } from '../utils/errorHandler.js';
 
 
@@ -43,3 +43,13 @@ export const getItem= async (req, res,next) =>{
         next(error);
     }
 }
+
+export const getAllItems = async (req, res, next) => {
+    try {
+      const items = await Item.find();
+      res.status(200).json(items);
+    } catch (error) {
+      next(error);
+    }
+  };
+  

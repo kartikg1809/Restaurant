@@ -4,7 +4,7 @@ import { FaHome, FaBoxOpen, FaClipboardList, FaUser, FaSignOutAlt } from 'react-
 
 const Sidebar = () => {
   return (
-    <div className="flex-1 h-screen fixed w-64 bg-slate-800 text-white flex flex-col">
+    <div className="h-screen fixed w-64 bg-slate-800 text-white flex flex-col">
       <h1 className="text-2xl font-bold p-4 mt-7">Admin Panel</h1>
       <nav className="flex-grow">
         <ul className="space-y-4 p-6">
