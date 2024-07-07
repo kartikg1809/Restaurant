@@ -16,6 +16,7 @@ export const deleteItem=async(req, res, next) =>{
     if(!item) return next(errorHandler(404,'Item not found'));
     try {
         await Item.findByIdAndDelete(req.params.id);
+        res.status(200).json('Item deleted');
     } catch (error) {
         next(error);
     }
@@ -38,7 +39,7 @@ export const getItem= async (req, res,next) =>{
        if(!item){
         return next(errorHandler(404,'Item not found')); 
      }
-     res.status(200).json(listing); 
+     res.status(200).json(item); 
     } catch (error) {
         next(error);
     }

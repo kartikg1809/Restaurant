@@ -1,7 +1,9 @@
-import React from "react";
-import { MdDelete, MdEdit } from "react-icons/md"; // Assuming you have imported the MdEdit icon
+import React, { useState } from "react";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
 
-const ItemTable = ({ items, handleEdit }) => {
+const ItemTable = ({ items,handleDelete }) => {
+  
   return (
     <div className="overflow-x-auto flex p-8 items-center justify-center">
       <table className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -18,22 +20,19 @@ const ItemTable = ({ items, handleEdit }) => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {items.map((item) => (
-            <tr key={item.id}>
-              <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap w-32 h-32"><img src={item.image} alt="" /></td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.price}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.isVeg ? "Vegetarian" : "Non-Vegetarian"}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.isAvailable ? "Yes" : "No"}</td>
-              <td className="px-6 py-4 whitespace-nowrap space-x-4">
+            <tr key={item._id}>
+              <td className="px-6 py-2 whitespace-nowrap">{item.name}</td>
+              <td className="px-6 py-2 whitespace-nowrap w-32 h-32"><img src={item.image} alt="" /></td>
+              <td className="px-6 py-2 whitespace-nowrap">₹{item.price}</td>
+              <td className="px-6 py-2 whitespace-nowrap">{item.category}</td>
+              <td className="px-6 py-2 whitespace-nowrap">{item.isVeg ? "Vegetarian" : "Non-Vegetarian"}</td>
+              <td className="px-6 py-2 whitespace-nowrap">{item.isAvailable ? "Yes" : "No"}</td>
+              <td className="px-6 py-2 whitespace-nowrap space-x-4">
+                <Link to={`/update-item/${item._id}`}>
+                  <button><MdEdit className="w-6 h-6 text-blue-600 hover:text-blue-900" /></button>
+                </Link>
                 <button
-                  onClick={() => handleEdit(item)}
-                  className="text-blue-600 hover:text-blue-900"
-                >
-                  <MdEdit className="w-6 h-6" />
-                </button>
-                <button
-                  onClick={() => handleDelete(item)}
+                  onClick={()=>handleDelete(item)}
                   className="text-red-700 hover:text-red-800"
                 >
                   <MdDelete className="w-6 h-6" />

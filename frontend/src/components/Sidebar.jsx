@@ -1,8 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaBoxOpen, FaClipboardList, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { logoutSuccess, logOutFailure } from '../app/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(logOutFailure(data.message));
+        return;
+      }
+      dispatch(logoutSuccess(data));
+      setIsModalOpen(false);
+      navigate('/sign-in');
+    } catch (error) {
+      dispatch(logOutFailure(error.message));
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className="h-screen fixed w-64 bg-slate-800 text-white flex flex-col">
       <h1 className="text-2xl font-bold p-4 mt-7">Admin Panel</h1>
@@ -18,7 +45,7 @@ const Sidebar = () => {
           </li>
           <li className="flex items-center">
             <FaBoxOpen className="mr-2" />
-            <Link to="/items" className="text-lg hover:text-gray-300">Items</Link>
+            <Link to="/show-items" className="text-lg hover:text-gray-300">Items</Link>
           </li>
           <li className="flex items-center">
             <FaUser className="mr-2" />
@@ -29,9 +56,10 @@ const Sidebar = () => {
       <div className="mt-auto p-6">
         <li className="flex items-center">
           <FaSignOutAlt className="mr-2" />
-          <Link to="/logout" className="text-lg hover:text-gray-300">Logout</Link>
+          <button onClick={openModal} className="text-lg hover:text-gray-300">Logout</button>
         </li>
       </div>
+      <Logout isOpen={isModalOpen} onClose={closeModal} onConfirm={handleSignOut} />
     </div>
   );
 }

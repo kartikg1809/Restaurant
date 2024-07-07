@@ -7,7 +7,7 @@ router.post('/create', createItem);
 router.delete('/delete/:id', deleteItem);
 router.post('/update/:id',updateItem);
 router.get('/get/:id', getItem);
-router.get('/get', getAllItems);
+router.get('/get-all', getAllItems);
 
 
 export default router;

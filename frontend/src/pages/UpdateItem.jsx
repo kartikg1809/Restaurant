@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { storage } from "../firebase.js";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSnackbar } from 'notistack';
+import { useParams, useNavigate } from "react-router-dom";
 
-const AddItem = () => {
+const UpdateItem = () => {
+  const navigate = useNavigate();
+  const params = useParams();
   const [files, setFiles] = useState(null);
   const [imageUploadError, setImageUploadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {enqueueSnackbar}=useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({
     name: "",
     price: "",
     category: "",
     isVeg: true,
     isAvailable: true,
-    image: "",  
+    image: "",
   });
 
   const handleImageSubmit = async () => {
@@ -33,6 +36,7 @@ const AddItem = () => {
       await uploadBytes(imageRef, file);
       const url = await getDownloadURL(imageRef);
       setImageUrl(url);
+      setFormData(prevData => ({ ...prevData, image: url }));
       setImageUploadError("");
     } catch (error) {
       console.error("Image upload failed: ", error);
@@ -44,50 +48,33 @@ const AddItem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!imageUrl) {
+    if (!formData.image) {
       setImageUploadError("Please upload an image before submitting.");
       return;
     }
-    const itemData = {
-      ...formData,
-      image:imageUrl,
-    };
-    console.log(itemData);
     try {
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/item/create", {
+      const res = await fetch(`/api/item/update/${params.itemId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...itemData,
-        }),
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
-        enqueueSnackbar(data.message,{variant:"error"});
+        enqueueSnackbar(data.message, { variant: "error" });
         return setError(data.message);
       }
-      enqueueSnackbar("Item added successfully",{variant:"success"});
+      enqueueSnackbar("Item Updated successfully", { variant: "success" });
+      navigate('/show-items');
     } catch (error) {
-      enqueueSnackbar("Some error occurred",{variant:"error"});
+      enqueueSnackbar("Some error occurred", { variant: "error" });
       setError(error.message);
       setLoading(false);
     }
-    setFormData({
-      name: "",
-      price: "",
-      category: "",
-      isVeg: true,
-      isAvailable: true,
-    });
-    setImageUrl("");
-    setFiles(null);
-    setImageUploadError('');
-    setUploading(false);
   };
 
   const handleChange = (e) => {
@@ -106,9 +93,24 @@ const AddItem = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchItem = async () => {
+      const itemId = params.itemId;
+      const res = await fetch(`/api/item/get/${itemId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+      setImageUrl(data.image);
+    };
+    fetchItem();
+  }, [params.itemId]);
+
   return (
     <div className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Add Item</h1>
+      <h1 className="text-3xl font-semibold text-center my-7">Update Item</h1>
       <form onSubmit={handleSubmit} className="flex gap-4">
         <div className="flex-1 flex flex-col gap-6 mt-4">
           <input
@@ -131,7 +133,7 @@ const AddItem = () => {
             onChange={handleChange}
             required
           />
-          <div className="">
+          <div>
             <label className="block text-sm font-bold mb-2">Category</label>
             <select
               id="category"
@@ -149,7 +151,7 @@ const AddItem = () => {
             </select>
           </div>
 
-          <div className="">
+          <div>
             <label className="block text-sm font-bold mb-2">Type</label>
             <div className="flex space-x-4">
               <label className="inline-flex items-center">
@@ -175,7 +177,7 @@ const AddItem = () => {
             </div>
           </div>
 
-          <div className="">
+          <div>
             <label className="block text-sm font-bold mb-2">Available</label>
             <div className="flex space-x-4">
               <label className="inline-flex items-center">
@@ -225,15 +227,15 @@ const AddItem = () => {
             <p className="text-red-600 text-sm">
               {imageUploadError && imageUploadError}
             </p>
-            {imageUrl && (
+            {formData.image && (
               <div className="flex justify-between p-2 border items-center my-2">
                 <img
                   src={imageUrl}
-                  alt="listing-image"
+                  alt="item-image"
                   className="w-32 h-24 object-contain rounded-lg mx-auto"
                 />
                 <button
-                  onClick={() => setImageUrl("")}
+                  onClick={() => setFormData({...formData,image:""})}
                   type="button"
                   className="p-2 text-red-700 rounded-lg text-2xl uppercase hover:opacity-95"
                 >
@@ -245,8 +247,9 @@ const AddItem = () => {
           <button
             type="submit"
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            disabled={loading}
           >
-            Add Item
+            {loading ? "Updating..." : "Update Item"}
           </button>
           {error && <p className="text-red-600 text-sm">{error}</p>}
         </div>
@@ -255,4 +258,4 @@ const AddItem = () => {
   );
 };
 
-export default AddItem;
+export default UpdateItem;
