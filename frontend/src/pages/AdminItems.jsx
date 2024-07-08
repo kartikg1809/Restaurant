@@ -25,7 +25,7 @@ const AdminItems = () => {
     const handleItems = async () => {
         try {
           setItemsError(false);
-          const res = await fetch(`/api/item/get`);
+          const res = await fetch(`/api/item/get-all`);
           const data = await res.json();
           if (data.success === false) {
             enqueueSnackbar("Some error occurred", { variant: "error" });

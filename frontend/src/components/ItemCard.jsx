@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-const ItemCard = ({ item }) => {
+const ItemCard = ({ item,addToCart }) => {
   const [quantity, setQuantity] = useState(1);
 
   const increaseQuantity = () => {
@@ -15,8 +14,8 @@ const ItemCard = ({ item }) => {
 
   return (
     <div className="max-w-xs w-full border border-gray-200 rounded-lg overflow-hidden shadow-md">
-      <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
-      <div className="p-4">
+      <div className="p-4 space-y-2">
+      <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-md" />
         <h2 className="text-xl font-semibold mb-2">{item.name}</h2>
         <p className="text-gray-700 mb-2">₹{item.price.toFixed(2)}</p>
         <div className="flex justify-between ">
@@ -30,7 +29,7 @@ const ItemCard = ({ item }) => {
           </button>
           </div>
           <div>
-          <button  className="bg-yellow-400 text-white px-2 py-1 rounded-md hover:bg-yellow-600 transition duration-300">
+          <button onClick={addToCart} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 transition duration-300">
           Add to Cart
         </button>
         </div>
