@@ -33,36 +33,34 @@ const Customer = () => {
     setFilteredItems(filteredData);
   };
 
-  const handleAddToCart = (item) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((cartItem) => cartItem.name === item.name);
-      if (existingItem) {
-        return prevCart.map((cartItem) =>
-          cartItem.name === item.name
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        );
-      } else {
-        return [...prevCart, { ...item, quantity: 1 }];
+  const handleAddToCart = (item,quantity) => {
+    setCart(prevCart=>{
+      const itemExists=prevCart.find(cartItem=>cartItem.id===item.id);
+
+      if(itemExists){
+        return prevCart.map(cartItem=>cartItem.id===item.id?{...cartItem,quantity:cartItem.quantity+1}:cartItem);
       }
-    });
+      else{
+        return [...prevCart,{...item,quantity:1}];
+      }
+    })
   };
 
   const handleRemoveFromCart = (itemId) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((cartItem) => cartItem.name === itemId.name);
-      if (existingItem.quantity > 1) {
-        return prevCart.map((cartItem) =>
-          cartItem.name === itemId.name
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : cartItem
-        );
-      } else {
-        return prevCart.filter((cartItem) => cartItem.id !== itemId);
-      }
-    });
+    setCart(prevCart => prevCart.filter(item => item.id !== itemId));
   };
 
+  const updateCartQuantity = (itemId, quantity) => {
+    if (quantity < 1) {
+      handleRemoveFromCart(itemId);
+    } else {
+      setCart(prevCart => 
+        prevCart.map(item => 
+          item.id === itemId ? { ...item, quantity } : item
+        )
+      );
+    }
+  };
   const toggleCart = () => {
     setShowCart(!showCart);
   };
@@ -74,25 +72,25 @@ const Customer = () => {
         <ul className="space-y-4 text-lg p-2">
           <li>
             <label className="flex items-center">
-              <input type="checkbox" className="mr-2 p-2" />
+              <input id="Appetizers" type="checkbox" className="mr-2 p-2" />
               Appetizers
             </label>
           </li>
           <li>
             <label className="flex items-center">
-              <input type="checkbox" className="mr-2 p-2" />
+              <input id="Main Course" type="checkbox" className="mr-2 p-2" />
               Main Course
             </label>
           </li>
           <li>
             <label className="flex items-center">
-              <input type="checkbox" className="mr-2 p-2" />
+              <input id="Drinks" type="checkbox" className="mr-2 p-2" />
               Drinks
             </label>
           </li>
           <li>
             <label className="flex items-center">
-              <input type="checkbox" className="mr-2 p-2" />
+              <input id="Desserts" type="checkbox" className="mr-2 p-2" />
               Desserts
             </label>
           </li>
@@ -104,8 +102,8 @@ const Customer = () => {
             className="border border-slate-600 p-2 rounded-md text-lg"
           >
             <option value="">Price</option>
-            <option value="">High to Low</option>
-            <option value="Drinks">Low to High</option>
+            <option id="desc" value="desc">High to Low</option>
+            <option id="asce" value="asce">Low to High</option>
           </select>
         </div>
         <div className="flex gap-2">
@@ -124,7 +122,7 @@ const Customer = () => {
         </div>
         <div className="flex flex-wrap gap-4">
           {filteredItems.map((item) => (
-            <ItemCard key={item.id} item={item} addToCart={() => handleAddToCart(item)} />
+            <ItemCard key={item.id} item={item} addToCart={() => handleAddToCart(item)} updateQuantity={updateCartQuantity} />
           ))}
         </div>
       </div>
@@ -141,6 +139,7 @@ const Customer = () => {
         cart={cart}
         handleRemoveFromCart={handleRemoveFromCart}
         toggleCart={toggleCart}
+        updateQuantity={updateCartQuantity}
       />
     </div>
   );
