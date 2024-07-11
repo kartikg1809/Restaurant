@@ -36,7 +36,7 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart,updateQuantity }) =
           <ul className="divide-y divide-gray-200">
             {cart.map((item) => (
               <li
-                key={item.id}
+                key={item._id}
                 className="py-4 flex items-center justify-between"
               >
                 <div className="flex items-center space-x-4">
@@ -52,14 +52,14 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart,updateQuantity }) =
                     </p>
                     <div className="pt-2">
                     <button
-                      onClick={()=>updateQuantity(item.id,item.quantity-1)}
+                      onClick={()=>updateQuantity(item._id,item.quantity-1)}
                       className="bg-gray-200 text-black px-2 rounded-md"
                     >
                       -
                     </button>
                     <span className="px-3">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item._id, item.quantity + 1)}
                       className="bg-gray-200 text-black px-2 rounded-md"
                     >
                       +
@@ -70,7 +70,7 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart,updateQuantity }) =
                 </div>
                 <div>
                   <button
-                    onClick={() => handleRemoveFromCart(item.id)}
+                    onClick={() => handleRemoveFromCart(item._id)}
                     className="text-red-500 hover:text-red-600 text-2xl"
                   >
                     <MdDelete />
