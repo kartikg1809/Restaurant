@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRouter.js';
 import itemRouter from './routes/itemRouter.js';
+import orderRouter from './routes/orderRouter.js';
 import cors from 'cors';
 
 const app = express();
@@ -25,6 +26,7 @@ app.listen(3000,()=>{
 
 app.use('/api/user',userRouter);
 app.use('/api/item',itemRouter);
+app.use('/api/order',orderRouter);
 
 
 app.use((err,req,res,next)=>{

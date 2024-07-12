@@ -33,9 +33,12 @@ const Signup = () => {
         dispatch(loginFailure(data.message));
         return;
       }
-      console.log(data);
       dispatch(loginSuccess(data));
-      navigate('/home');
+      if (data.role === 'customer') {
+        navigate('/customer-page');
+      } else {
+        navigate('/admin-dashboard');
+      }
     } catch (error) {
       dispatch(loginFailure(error.message));
     }

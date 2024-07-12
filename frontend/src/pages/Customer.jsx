@@ -15,6 +15,7 @@ const Customer = () => {
     Drinks: false,
     Desserts: false,
   });
+  const [type,setType]=useState('');
   const [sortOption, setSortOption] = useState('');
   useEffect(() => {
     const fetchItems = async () => {
@@ -36,6 +37,12 @@ const Customer = () => {
     filterItems(searchQuery, categoryFilters, sortOption);
   };
 
+  const handleFilterChange = (filterType, isChecked) => {
+    setType(isChecked ? filterType : '');
+    console.log(type);
+    filterItems(searchQuery, { ...categoryFilters }, sortOption, isChecked ? filterType : '');
+  };
+
   const handleCategoryChange = (e) => {
     const { id, checked } = e.target;
     setCategoryFilters(prevFilters => ({
@@ -51,11 +58,10 @@ const Customer = () => {
     filterItems(searchQuery, categoryFilters, value);
   };
 
-  const filterItems = (searchQuery, categoryFilters, sortOption) => {
+  const filterItems = (searchQuery, categoryFilters, sortOption,filterType) => {
     let filteredData = items.filter((item) =>
       item.name.toLowerCase().includes(searchQuery)
     );
-
     if (categoryFilters.Appetizers) {
       filteredData = filteredData.filter(item => item.category === 'Appetizers');
     }
@@ -68,13 +74,17 @@ const Customer = () => {
     if (categoryFilters.Desserts) {
       filteredData = filteredData.filter(item => item.category === 'Desserts');
     }
-
     if (sortOption === 'desc') {
       filteredData.sort((a, b) => b.price - a.price);
     } else if (sortOption === 'asce') {
       filteredData.sort((a, b) => a.price - b.price);
     }
-
+    if(filterType=='veg'){
+      filteredData = filteredData.filter(item => item.isVeg);
+    }
+    else if (filterType=='nonveg'){
+      filteredData = filteredData.filter(item => !item.isVeg);
+    }
     setFilteredItems(filteredData);
   };
 
@@ -181,7 +191,7 @@ const Customer = () => {
           </select>
         </div>
         <div className="flex gap-2">
-          <SliderButton type={'veg'} /> <SliderButton type={'nonveg'} />
+          <SliderButton type={'veg'} handleFilterChange={handleFilterChange} /> <SliderButton type={'nonveg'} handleFilterChange={handleFilterChange} />
         </div>
       </div>
 

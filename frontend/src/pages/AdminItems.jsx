@@ -3,6 +3,7 @@ import ItemTable from "../components/ItemTable";
 import { useSnackbar } from "notistack";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 const AdminItems = () => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -76,12 +77,14 @@ const AdminItems = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="flex">
+    <Sidebar />
+    <div className="mx-auto ml-64">
       <div className="mb-4 flex justify-center">
         <input
           type="text"
           placeholder="Search items..."
-          className="p-3 border border-gray-300 rounded-lg w-96"
+          className="p-3 border mt-6 border-gray-300 rounded-lg w-96"
           onChange={handleSearchChange}
         />
       </div>
@@ -147,8 +150,9 @@ const AdminItems = () => {
         </div>
       )}
       <Link to={'/add-item'} className="flex items-center justify-center">
-        <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95">ADD ITEM</button>
+        <button className="p-3 mb-6 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95">ADD ITEM</button>
       </Link>
+    </div>
     </div>
   );
 };

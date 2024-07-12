@@ -4,7 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSnackbar } from 'notistack';
 import { useParams, useNavigate } from "react-router-dom";
-
+import Sidebar from "../components/Sidebar.jsx";
 const UpdateItem = () => {
   const navigate = useNavigate();
   const params = useParams();
@@ -109,7 +109,9 @@ const UpdateItem = () => {
   }, [params.itemId]);
 
   return (
-    <div className="p-3 max-w-4xl mx-auto">
+    <div className="flex">
+    <Sidebar />
+    <div className="p-3 ml-80 mx-auto ml-">
       <h1 className="text-3xl font-semibold text-center my-7">Update Item</h1>
       <form onSubmit={handleSubmit} className="flex gap-4">
         <div className="flex-1 flex flex-col gap-6 mt-4">
@@ -254,6 +256,7 @@ const UpdateItem = () => {
           {error && <p className="text-red-600 text-sm">{error}</p>}
         </div>
       </form>
+    </div>
     </div>
   );
 };

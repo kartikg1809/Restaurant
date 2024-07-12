@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaBoxOpen, FaClipboardList, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { useDispatch} from 'react-redux';
 import { logoutSuccess, logOutFailure } from '../app/user/userSlice';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Logout from './Logout';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -31,7 +31,7 @@ const Sidebar = () => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="h-screen fixed w-64 bg-slate-800 text-white flex flex-col">
+    <div className="h-screen w-64 fixed bg-slate-800 text-white flex flex-col">
       <h1 className="text-2xl font-bold p-4 mt-7">Admin Panel</h1>
       <nav className="flex-grow">
         <ul className="space-y-4 p-6">
