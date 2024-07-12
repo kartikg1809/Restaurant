@@ -6,7 +6,7 @@ const ProtectedRoute = ({ element: Component, allowedRoles }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   if (!currentUser || !allowedRoles.includes(currentUser.role)) {
-    return <Navigate to="/sign-in" />;
+    return <Navigate to="/unauthorized" />;
   }
 
   return Component;

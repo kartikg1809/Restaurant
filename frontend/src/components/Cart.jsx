@@ -3,9 +3,11 @@ import { IoCloseCircle } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
+import { useNavigate } from "react-router-dom";
 
-const Cart = ({ show, cart, handleRemoveFromCart, toggleCart, updateQuantity }) => {
+const Cart = ({ show, cart, handleRemoveFromCart, toggleCart, updateQuantity,resetCart }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const navigate=useNavigate();
   const [tableNumber, setTableNumber] = useState("");
   const { currentUser } = useSelector((state) => state.user);
   const [error, setError] = useState(false);
@@ -33,7 +35,7 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart, updateQuantity }) 
             quantity: item.quantity,
           })),
           totalAmount: grandTotal,
-          userRef: currentUser._id,
+          userRef: currentUser!==null?currentUser._id:tableNumber,
         }),
       });
       const data = await res.json();
@@ -43,6 +45,8 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart, updateQuantity }) 
         enqueueSnackbar(data.message, { variant: "error" });
       }
       enqueueSnackbar("Order Placed successfully", { variant: "success" });
+      setTableNumber("");
+      resetCart();
     } catch (error) {
       enqueueSnackbar("Some error occurred", { variant: "error" });
       setError(error.message);
@@ -130,7 +134,7 @@ const Cart = ({ show, cart, handleRemoveFromCart, toggleCart, updateQuantity }) 
             </span>
           </p>
           <p className="flex justify-between">
-            <span>Tax (18%):</span>
+            <span>GST (18%):</span>
             <span className="font-semibold text-gray-800">
               ₹{tax.toFixed(2)}
             </span>

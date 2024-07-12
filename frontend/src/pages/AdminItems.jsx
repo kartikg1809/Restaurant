@@ -79,7 +79,7 @@ const AdminItems = () => {
   return (
     <div className="flex">
     <Sidebar />
-    <div className="mx-auto ml-64">
+    <div className="mx-auto ml-80">
       <div className="mb-4 flex justify-center">
         <input
           type="text"

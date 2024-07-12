@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ItemCard from '../components/ItemCard';
 import SliderButton from '../components/SliderButton';
 import Cart from '../components/Cart';
-
+import { FaShoppingCart } from "react-icons/fa";
 const Customer = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [cart, setCart] = useState([]);
-  const [showCart, setShowCart] = useState(true);
+  const [showCart, setShowCart] = useState(false);
   const [categoryFilters, setCategoryFilters] = useState({
     Appetizers: false,
     MainCourse: false,
@@ -119,6 +119,10 @@ const Customer = () => {
     }
   };
 
+  const resetCart=()=>{
+    setCart([]);
+    toggleCart(false);
+  }
   const toggleCart = () => {
     setShowCart(!showCart);
   };
@@ -216,12 +220,11 @@ const Customer = () => {
           ))}
         </div>
       </div>
-
       <button
-        className="fixed bottom-6 right-6 bg-slate-600 text-white p-4 rounded-full text-2xl shadow-lg hover:bg-slate-800 transition duration-300"
+        className="fixed flex items-center bottom-6 right-6 bg-slate-600 text-white p-4 rounded-full text-2xl shadow-lg hover:bg-slate-800 transition duration-300"
         onClick={toggleCart}
       >
-        🛒 {cart.length}
+        <FaShoppingCart /> <span className='pl-2'>{cart.length}</span>
       </button>
 
       <Cart
@@ -230,6 +233,7 @@ const Customer = () => {
         handleRemoveFromCart={handleRemoveFromCart}
         toggleCart={toggleCart}
         updateQuantity={updateCartQuantity}
+        resetCart={resetCart}
       />
     </div>
   );

@@ -1,22 +1,22 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Signup from './pages/Signup';
-import Sidebar from './components/Sidebar';
 import AddItem from './pages/AddItem';
 import AdminItems from './pages/AdminItems';
 import UpdateItem from './pages/UpdateItem';
 import Customer from './pages/Customer';
 import ProtectedRoute from './components/ProtectedRoute';
-import { useSelector } from 'react-redux';
 import AdminDashboard from './pages/AdminDashboard';
-
+import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import Unauthorized from './pages/Unauthorized';
 const App = () => {
-  const { user } = useSelector((state) => state.user);
-
   return (
     <BrowserRouter>
           <Routes>
             <Route path="/sign-in" element={<Signup />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/customer-dashboard" element={<Customer />} />
             <Route
               path="/admin-dashboard"
               element={
@@ -24,15 +24,21 @@ const App = () => {
               }
             />
             <Route
-              path="/show-items"
+              path="/orders"
               element={
-                <ProtectedRoute element={<AdminItems />} allowedRoles={['admin', 'staff']} />
+                <ProtectedRoute element={<Orders />} allowedRoles={['admin', 'staff']} />
               }
             />
             <Route
-              path="/customer-page"
+              path="/profile"
               element={
-                <ProtectedRoute element={<Customer />} allowedRoles={['customer','admin','staff']} />
+                <ProtectedRoute element={<Profile />} allowedRoles={['admin','staff']} />
+              }
+            />
+            <Route
+              path="/show-items"
+              element={
+                <ProtectedRoute element={<AdminItems />} allowedRoles={['admin', 'staff']} />
               }
             />
             <Route

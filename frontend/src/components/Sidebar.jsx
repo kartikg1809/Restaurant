@@ -4,6 +4,7 @@ import { FaHome, FaBoxOpen, FaClipboardList, FaUser, FaSignOutAlt } from 'react-
 import { useDispatch} from 'react-redux';
 import { logoutSuccess, logOutFailure } from '../app/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { FaBorderAll } from "react-icons/fa";
 import Logout from './Logout';
 
 const Sidebar = () => {
@@ -37,7 +38,7 @@ const Sidebar = () => {
         <ul className="space-y-4 p-6">
           <li className="flex items-center">
             <FaHome className="mr-2" />
-            <Link to="/home" className="text-lg hover:text-gray-300">Home</Link>
+            <Link to="/admin-dashboard" className="text-lg hover:text-gray-300">Home</Link>
           </li>
           <li className="flex items-center">
             <FaClipboardList className="mr-2" />
@@ -50,6 +51,10 @@ const Sidebar = () => {
           <li className="flex items-center">
             <FaUser className="mr-2" />
             <Link to="/profile" className="text-lg hover:text-gray-300">Profile</Link>
+          </li>
+          <li className="flex items-center">
+            <FaBorderAll className="mr-2" />
+            <Link to="/customer-dashboard" className="text-lg hover:text-gray-300">Customer Dashboard</Link>
           </li>
         </ul>
       </nav>
