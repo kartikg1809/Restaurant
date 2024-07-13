@@ -52,6 +52,8 @@ io.on('connection', (socket) => {
   });
 });
 
-export default app;
+server.listen(3000, () => {
+  console.log("Listening on port 3000");
+});
 
 export { io };
