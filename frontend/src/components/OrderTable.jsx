@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 
 const OrderTable = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  const socket = io('https://restaurantserver-kartiks-projects-afb6be03.vercel.app');
+  // const socket = io('https://restaurantserver-kartiks-projects-afb6be03.vercel.app');
 
-  useEffect(() => {
-      socket.on('newOrder', (order) => {
-      setOrders((prevOrders) => [...prevOrders, order]);
-    });
+  // useEffect(() => {
+  //     socket.on('newOrder', (order) => {
+  //     setOrders((prevOrders) => [...prevOrders, order]);
+  //   });
 
-    socket.on('orderCompleted', (updatedOrder) => {
-      setOrders((prevOrders) =>
-        prevOrders.map(order =>
-          order._id === updatedOrder._id ? updatedOrder : order
-        )
-      );
-    });
+  //   socket.on('orderCompleted', (updatedOrder) => {
+  //     setOrders((prevOrders) =>
+  //       prevOrders.map(order =>
+  //         order._id === updatedOrder._id ? updatedOrder : order
+  //       )
+  //     );
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
 
   useEffect(() => {

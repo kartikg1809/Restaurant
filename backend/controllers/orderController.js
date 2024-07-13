@@ -5,7 +5,7 @@ import { errorHandler } from '../utils/errorHandler.js';
 export const createOrder = async (req, res, next) => {
     try {       
         const savedOrder = await Order.create(req.body);
-        io.emit('newOrder', savedOrder);
+        // io.emit('newOrder', savedOrder);
         return res.status(201).json(savedOrder);
     } catch (error) {
         next(error);
@@ -30,7 +30,7 @@ export const completeOrder = async (req, res, next) => {
             { new: true }
         );
 
-        io.emit('orderCompleted', updatedOrder);
+        // io.emit('orderCompleted', updatedOrder);
         return res.status(200).json(updatedOrder);
     } catch (error) {
         next(error);

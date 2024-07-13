@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target: 'http://restaurantserver-kartiks-projects-afb6be03.vercel.app',
+        target: 'http://localhost:3000',
         secure:false,
       }
     }
