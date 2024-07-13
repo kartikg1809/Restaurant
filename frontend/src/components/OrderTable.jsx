@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 const OrderTable = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  const socket = io('http://localhost:3000');
+  const socket = io('https://restaurantserver-kartiks-projects-afb6be03.vercel.app');
 
   useEffect(() => {
       socket.on('newOrder', (order) => {
