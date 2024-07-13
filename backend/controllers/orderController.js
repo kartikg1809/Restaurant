@@ -1,6 +1,6 @@
 import Order from "../models/orderModel.js";
 import { errorHandler } from '../utils/errorHandler.js';
-import { io } from '../index.js';
+// import { io } from '../index.js';
 
 export const createOrder = async (req, res, next) => {
     try {       
