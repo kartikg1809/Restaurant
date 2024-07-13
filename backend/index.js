@@ -28,19 +28,14 @@ mongoose.connect(process.env.MONGODB_URL)
     console.log("Connected to Database");
   })
   .catch((err) => {
-    console.error("Database connection error:", err);
+    console.log(err);
   });
 
 app.use('/api/user', userRouter);
 app.use('/api/item', itemRouter);
 app.use('/api/order', orderRouter);
 
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
-
 app.use((err, req, res, next) => {
-  console.error(err);
   const statuscode = err.statusCode || 500;
   const message = err.message || 'Internal server error';
   return res.status(statuscode).json({
@@ -57,8 +52,9 @@ io.on('connection', (socket) => {
   });
 });
 
-export default (req, res) => {
-  server(req, res);
-};
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
 
 export { io };
