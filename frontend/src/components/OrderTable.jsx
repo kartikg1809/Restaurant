@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from './Spinner';
 // import { io } from 'socket.io-client';
 
 const OrderTable = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  // const socket = io('https://restaurantserver-kartiks-projects-afb6be03.vercel.app');
+  const [loading, setLoading] = useState(false);
+  // const socket = io('http://localhost:3000');
 
   // useEffect(() => {
   //     socket.on('newOrder', (order) => {
@@ -29,14 +31,18 @@ const OrderTable = () => {
     const handleOrders = async () => {
         try {
           setError(false);
+          setLoading(true);
           const res = await fetch(`/api/order/get`);
           const data = await res.json();
           if (data.success === false) {
+            setLoading(false);
             enqueueSnackbar("Some error occurred", { variant: "error" });
             return;
           }
+          setLoading(false);
           setOrders(data);
         } catch (error) {
+          setLoading(false);
           enqueueSnackbar("Some error occurred", { variant: "error" });
           setError(true);
         }
@@ -61,6 +67,7 @@ const OrderTable = () => {
         <div className="mb-4 flex justify-center">
           <h1 className="text-2xl font-bold mb-4">Orders</h1>
         </div>
+        {loading?<Spinner/>:(
         <div className="overflow-x-auto">
           <table className="bg-white shadow-lg rounded-lg overflow-hidden">
             <thead className="bg-slate-800">
@@ -107,6 +114,7 @@ const OrderTable = () => {
             </tbody>
           </table>
         </div>
+      )}
       </div>
     </div>
   );

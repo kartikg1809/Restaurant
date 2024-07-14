@@ -3,12 +3,14 @@ import ItemCard from '../components/ItemCard';
 import SliderButton from '../components/SliderButton';
 import Cart from '../components/Cart';
 import { FaShoppingCart } from "react-icons/fa";
+import Spinner from '../components/Spinner';
 const Customer = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [categoryFilters, setCategoryFilters] = useState({
     Appetizers: false,
     MainCourse: false,
@@ -20,11 +22,14 @@ const Customer = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        setLoading(true);
         const res = await fetch('/api/item/get-all');
         const data = await res.json();
         setItems(data);
+        setLoading(false);
         setFilteredItems(data);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     };
@@ -208,6 +213,7 @@ const Customer = () => {
             className="p-2 border rounded-lg w-full max-w-xs"
           />
         </div>
+        {loading?<Spinner/>:(
         <div className="flex flex-wrap gap-4">
           {filteredItems.map((item) => (
             <ItemCard
@@ -218,7 +224,7 @@ const Customer = () => {
               cart={cart}
             />
           ))}
-        </div>
+        </div>)}
       </div>
       <button
         className="fixed flex items-center bottom-6 right-6 bg-slate-600 text-white p-4 rounded-full text-2xl shadow-lg hover:bg-slate-800 transition duration-300"
