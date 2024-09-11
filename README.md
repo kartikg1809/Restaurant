@@ -5,6 +5,9 @@ This is a **Restaurant Management Web Application** built using the MERN stack (
 ## Demo
 
 You can view a live demo of the project [here](https://restaurant-order-kartik.vercel.app/sign-in) .
+To access the admin panel, use the following credentials:
+- **Email**: `admin@admin`
+- **Password**: `admin`
 
 ## Screenshots
 
@@ -63,9 +66,6 @@ You can view a live demo of the project [here](https://restaurant-order-kartik.v
 
 3. Start backend server
     ```bash
-    cd ../backend
-    ```
-    ```bash
     npm start
     ```
 
@@ -77,9 +77,6 @@ You can view a live demo of the project [here](https://restaurant-order-kartik.v
    npm install
    ```
 5. Start frontend server
-    ```bash
-    cd ../frontend
-    ```
     ```bash
     npm start
     ```
